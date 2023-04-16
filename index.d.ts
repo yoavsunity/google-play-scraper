@@ -121,7 +121,7 @@ export interface IAppItemFullDetail extends IAppItem {
   size: string
   androidVersion: string
   androidVersionText: string
-  developer: string
+  developer: any
   developerId: string
   developerInternalID: string
   developerEmail: string
@@ -136,6 +136,7 @@ export interface IAppItemFullDetail extends IAppItem {
   screenshots: string[]
   video: string
   videoImage: string
+  videoPreview: string
   contentRating: string
   contentRatingDescription: string
   adSupported: boolean
@@ -144,8 +145,15 @@ export interface IAppItemFullDetail extends IAppItem {
   version: string
   recentChanges: string
   comments: string[]
+  privacyPolicy: string
+  tags: ITag[]
 }
 
+export interface ITag {
+  label: string
+  url: string
+  type: string
+}
 export interface IReviewsItem {
   id: string
   userName: string
@@ -182,6 +190,7 @@ export interface IFnAppOptions extends IOptions {
   appId: string
   lang?: string
   country?: string
+  requestOptions?: any
 }
 
 export interface IFnApp {
@@ -197,6 +206,7 @@ export interface IFnListOptions extends IOptions {
   lang?: string
   country?: string
   fullDetail?: boolean
+  requestOptions?: any
 }
 
 export interface IFnList {

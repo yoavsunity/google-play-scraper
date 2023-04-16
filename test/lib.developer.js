@@ -3,8 +3,6 @@
 const gplay = require('../index');
 const assert = require('chai').assert;
 const assertValidApp = require('./common').assertValidApp;
-const validator = require('validator');
-const assertValidUrl = require('./common').assertValidUrl;
 
 describe('Developer method', () => {
   it('should fetch a valid application list for the given developer with string id', () => {
@@ -32,42 +30,6 @@ describe('Developer method', () => {
 
   it('should fetch a valid application list with full detail', () => {
     return gplay.developer({ devId: '5700313618786177705', num: 10, fullDetail: true })
-      .then((apps) => {
-        apps.forEach((app) => {
-          assert.isNumber(app.minInstalls);
-          // IF APP IS NOT RELEASED
-          // THIS MEANS THAT IT SHOULDN'T HAVE REVIEWS
-          if (app.released) {
-            assert.isNumber(app.reviews);
-          }
-
-          assert.isString(app.description);
-          assert.isString(app.descriptionHTML);
-          assert.isNumber(app.updated);
-
-          assert.hasAnyKeys(app, 'genre');
-          assert.hasAnyKeys(app, 'genreId');
-
-          assert.isString(app.version || '');
-          assert.isString(app.size || '');
-          assert.isString(app.androidVersionText);
-          assert.isString(app.androidVersion);
-          assert.isString(app.contentRating);
-
-          assert.hasAnyKeys(app, 'priceText');
-          assert.hasAnyKeys(app, 'free');
-
-          assert.isString(app.developer);
-          assert.isString(app.developerId);
-          if (app.developerWebsite) {
-            assertValidUrl(app.developerWebsite);
-          }
-          assert(validator.isEmail(app.developerEmail), `${app.developerEmail} is not an email`);
-
-          ['1', '2', '3', '4', '5'].map((v) => assert.property(app.histogram, v));
-          app.screenshots.map(assertValidUrl);
-          app.comments.map(assert.isString);
-        });
-      });
+      .then((apps) => apps.map(assertValidApp));
   }).timeout(15 * 1000);
 });

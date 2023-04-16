@@ -1,9 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const assertValidApp = require('./common').assertValidApp;
-const validator = require('validator');
-const assertValidUrl = require('./common').assertValidUrl;
+const { assertValidApp, assertValidFullApp } = require('./common');
 const gplay = require('../index');
 
 describe('List method', () => {
@@ -156,37 +154,13 @@ describe('List method', () => {
       fullDetail: true,
       num: 5
     })
-      .then((apps) => apps.map(assertValidApp))
+      .then((apps) => apps.map(assertValidFullApp))
       .then((apps) => apps.map((app) => {
-        assert.isNumber(app.minInstalls);
-        assert.isNumber(app.reviews);
-
-        assert.isString(app.description);
-        assert.isString(app.descriptionHTML);
-        assert.isString(app.released);
-
         assert.equal(app.genre, 'Action');
         assert.equal(app.genreId, 'GAME_ACTION');
 
-        assert.isString(app.version || '');
-        assert.isString(app.size || '');
-        assert.isString(app.androidVersionText);
-        assert.isString(app.androidVersion);
-        assert.isString(app.contentRating);
-
         assert.equal(app.priceText, 'Free');
-        assert(app.free);
-
-        assert.isString(app.developer);
-        assert.isString(app.developerId);
-        if (app.developerWebsite) {
-          assertValidUrl(app.developerWebsite);
-        }
-        assert(validator.isEmail(app.developerEmail), `${app.developerEmail} is not an email`);
-
-        ['1', '2', '3', '4', '5'].map((v) => assert.property(app.histogram, v));
-        app.screenshots.map(assertValidUrl);
-        app.comments.map(assert.isString);
+        assert.isTrue(app.free);
       }));
   }).timeout(timeout);
 
