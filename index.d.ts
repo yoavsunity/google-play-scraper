@@ -112,6 +112,8 @@ export interface IAppItemFullDetail extends IAppItem {
   reviews: number
   histogram: { '1': number, '2': number, '3': number, '4': number, '5': number }
   price: number
+  originalPrice?: number
+  discountEndDate?: string
   free: boolean
   currency: string
   priceText: string
