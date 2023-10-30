@@ -114,6 +114,7 @@ export interface IAppItemFullDetail extends IAppItem {
   price: number
   originalPrice?: number
   discountEndDate?: string
+  discountEndDateTimestamp?: number
   free: boolean
   currency: string
   priceText: string
